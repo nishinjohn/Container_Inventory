@@ -12,42 +12,16 @@ class container
   {
    public:
     int contno,vol;
-    float shipid;
-
-    /*
-    float data()
-      {
-       return shipid;
-      }
-    int data1()
-        {
-        return pass;
-        }
-    int data2()
-      {
-       return cap;
-      }
-    int data3()
-      {
-       return vol;
-      }
-    char data4()
-      {
-	return user[15];
-      }
-    */
+    float shipid,pass;
 
 
-//    void getdata(char chng[15])
-    void getdata_admin()
+
+    void getdata_user(char user[15])
       {
-            //strcpy (user,chng);
-            //cout<<"spec";
-            //puts(user);
-            //puts(chng);
+
             cout<<"Enter item to ship ";
             cin.getline(item,sizeof item);
-//            cin.ignore();                             // May get you in trouble
+            cin.ignore();                             // May get you in trouble
 
             cout<<"Enter volume required ";
             cin>>vol;
@@ -55,8 +29,12 @@ class container
                           {
                          //	    cout<<"shipment id is "<<shipid++;
                             cap-=vol;
+                            cout<<"user id is"<<user;
                             cout<<"Enter desired ship id";
                             cin>>shipid;
+                            cout<<"Enter desired password";
+                            cin>>pass;
+
                           }
                         else
                           {
@@ -77,6 +55,7 @@ class container
       {
             cout<<"user name is : ";puts(user);
             cout<<"\nshipment id is : "<<shipid;
+            cout<<"password cannot be displayed due to security reasons";
             cout<<"\nitem is : ";puts(item);
             cout<<"\nvolume alloted is : "<<vol;
       }
@@ -99,7 +78,7 @@ class container
 
            fstream f("missori.dat",ios::binary|ios::app|ios::out);   //why out ??
  //          fstream f("missori.dat",ios::binary|ios::out);
-           s.getdata_admin();//s.getdata(use);
+           s.getdata_user(user);//s.getdata(use);
            f.write((char*)&s,sizeof(s));
            f.close();
            cout<<"Data added to file";
@@ -131,8 +110,8 @@ class container
         cout<<"\n\t\t\t Enter shipment id - ";
         cin>>id;
         //cout<< " Details Parsed";
-        //cout<<"\n\t\t\t Enter password - ";
-        //	cin>>kEy;
+        cout<<"\n\t\t\t Enter password - ";
+        cin>>kEy;
 
         ifstream f("missori.dat",ios::binary|ios::in);
             if(!f)
@@ -140,7 +119,7 @@ class container
                     while(f.read((char*)&s,sizeof(s)))
                       {
                         s.putdata();
-                        if(s.shipid==id)//&&(s.pass==kEy))
+                        if((s.shipid==id)&&(s.pass==kEy))
                           {
                         cout<<"\n\t\t\t SHIPMENT DETAILS \n";
                         s.putdata();
@@ -205,13 +184,13 @@ class container
             float id;
             cout<<"\n\t\t\t Enter shipment id - ";
             cin>>id;
-            //	cout<<"\n\t\t\t Enter password - ";
-            //	cin>>kEy;
+            	cout<<"\n\t\t\t Enter password - ";
+            	cin>>kEy;
             ifstream f("missori.dat",ios::binary|ios::in);
             ofstream f1("temp.dat",ios::binary|ios::trunc);
             while(f.read((char*)&s,sizeof(s)))
               {
-                if(s.shipid==id)//&&(s.pass==kEy))
+                if((s.shipid==id)&&(s.pass==kEy))
                   {
                  while(f.read((char*)&s,sizeof(s)))
                    {
@@ -253,8 +232,9 @@ int main()    // remember to change this
     char exit;
      do{
      cout<<"Enter user name\n";
-	 //cin.ignore();
-//	 user=getchar();
+    // gets(user);
+	// cin.ignore();
+
 	 cin.getline(user,sizeof user);
 	 if(strcmpi("admin",user)==0)
 	   {
