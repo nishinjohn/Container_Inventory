@@ -47,22 +47,24 @@ class container
             //puts(chng);
             cout<<"Enter item to ship ";
             cin.getline(item,sizeof item);
-            cin.ignore();                             // May get you in trouble
+//            cin.ignore();                             // May get you in trouble
+
             cout<<"Enter volume required ";
             cin>>vol;
-            cout<<"Enter desired ship id";
-            cin>>shipid;
+                        if(vol<=cap)
+                          {
+                         //	    cout<<"shipment id is "<<shipid++;
+                            cap-=vol;
+                            cout<<"Enter desired ship id";
+                            cin>>shipid;
+                          }
+                        else
+                          {
+                               cout<<"sorry out of space.";
+                               cout<<"can u reduce the volume to "<<cap<<" or less ";
+                          }
 
-            if(vol<=cap)
-              {
-             //	    cout<<"shipment id is "<<shipid++;
-                cap-=vol;
-              }
-            else
-              {
-                   cout<<"sorry out of space.";
-                   cout<<"can u reduce the volume to "<<cap<<" or less ";
-              }
+
       }
     void getdata()
       {
@@ -185,6 +187,7 @@ class container
             ofstream f1("temp.dat",ios::binary|ios::trunc);  //truncated to discard previous data
             while(f.read((char*)&s,sizeof(s)))
              {
+                cap+=s.vol;
                if(s.shipid!=id)
                  {
                    f1.write((char*)&s,sizeof(s));
@@ -211,7 +214,9 @@ class container
                 if(s.shipid==id)//&&(s.pass==kEy))
                   {
                  while(f.read((char*)&s,sizeof(s)))
-                   { if(s.shipid!=id)
+                   {
+                       cap+=s.vol;
+                       if(s.shipid!=id)
                     { f1.write((char*)&s,sizeof(s));
                     }
                    }
